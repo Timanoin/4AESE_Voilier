@@ -90,69 +90,71 @@ void TIM2_IRQHandler(void)
 	}
 }
 
+// Active la PWM de Timer sur le Channel choisi
 void timer_pwm( TIM_TypeDef * Timer , char Channel )
 {
 	switch (Channel)
 	{
 		case 1:
+			// Configuration du mode de PWM
 			Timer->CCMR1 &= ~TIM_CCMR1_OC1M;
 			Timer->CCMR1 |= (0x6 << 4);		
-			Timer->CCMR1 |= TIM_CCMR1_OC1PE;
+			// Activation sortie OCx
+			Timer->CCER |= TIM_CCER_CC1E;
 			break;
 		case 2:
+			// Configuration du mode de PWM
 			Timer->CCMR1 &= ~TIM_CCMR1_OC2M;
-			Timer->CCMR1 |= (0x6 << 12);		
-			Timer->CCMR1 |= TIM_CCMR1_OC2PE;
-			break;
-		
+			Timer->CCMR1 |= (0x6 << 12);
+			// Activation sortie OCx
+			Timer->CCER |= TIM_CCER_CC2E;
+			break;	
 		case 3:
+			// Configuration du mode de PWM
 			Timer->CCMR2 &= ~TIM_CCMR2_OC3M;
-			Timer->CCMR2 |= (0x6 << 4);			
-			Timer->CCMR2 |= TIM_CCMR2_OC3PE;
-			break;
-		
+			Timer->CCMR2 |= (0x6 << 4);	
+			// Activation sortie OCx		
+			Timer->CCER |= TIM_CCER_CC3E;
+			break;	
 		case 4:
+			// Configuration du mode de PWM
 			Timer->CCMR2 &= ~TIM_CCMR2_OC4M;
-			Timer->CCMR2 |= (0x6 << 12);		
-			Timer->CCMR2 |= TIM_CCMR2_OC4PE;
-			break;
-		
+			Timer->CCMR2 |= (0x6 << 12);
+			// Activation sortie OCx		
+			Timer->CCER |= TIM_CCER_CC4E;
+			break;	
 		default:
-			break;
-		
+			break;		
 	}
-	
+	if (Timer == TIM1) Timer->BDTR |= TIM_BDTR_MOE;
+	// Activation auto-reload preload register
 	Timer->CR1 |= TIM_CR1_ARPE;
+	// Mise à 0 du bit DIR
+	Timer->CR1 &= ~TIM_CR1_DIR;
+	// Activation Shadow registers
 	Timer->EGR |= TIM_EGR_UG;
 }
 
+// Change le duty cycle de la PWM de Timer sur le channel
 void timer_pwm_changecycle( TIM_TypeDef * Timer , char ratio, char channel)
 {
 	switch (channel)
 	{
 		case 1:
-			Timer->CCR1 &= ~(0xFFFF);
-			Timer->CCR1 |= Timer->ARR * ratio / 100;
-			break;
-		
+			Timer->CCR1 = Timer->ARR * ratio / 100;
+			break;		
 		case 2:
-			Timer->CCR2 &= ~(0xFFFF);
-			Timer->CCR2 |= Timer->ARR * ratio / 100;
-			break;
-		
+			Timer->CCR2 = Timer->ARR * ratio / 100;
+			break;	
 		case 3:
-			Timer->CCR3 &= ~(0xFFFF);
-			Timer->CCR3 |= Timer->ARR * ratio / 100;
-			break;
-		
+			Timer->CCR3 = Timer->ARR * ratio / 100;
+			break;	
 		case 4:
-			Timer->CCR4 &= ~(0xFFFF);
 			Timer->CCR4 |= Timer->ARR * ratio / 100;
-			break;
-		
+			break;		
 		default:
 			break;
-		
+	
 	}
 }
 
