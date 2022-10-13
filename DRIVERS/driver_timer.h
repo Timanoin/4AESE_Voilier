@@ -38,6 +38,6 @@ void TIM2_IRQHandler(void);
 #define TIMER_BASE_STOP(Timer) ((Timer)->CR1&=~TIM_CR1_CEN)
 
 void timer_pwm( TIM_TypeDef * Timer , char channel ) ;
-void timer_pwm_changecycle( TIM_TypeDef * Timer , char ratio, char channel);
+void timer_pwm_changecycle( TIM_TypeDef * Timer , float ratio, char channel);
 
 #endif
