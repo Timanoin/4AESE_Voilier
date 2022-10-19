@@ -154,7 +154,6 @@ void timer_pwm_changecycle( TIM_TypeDef * Timer , float ratio, char channel)
 			break;		
 		default:
 			break;
-	
 	}
 }
 

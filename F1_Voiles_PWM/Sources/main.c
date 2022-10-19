@@ -18,40 +18,20 @@
 int main(void)
 {
 	// Déclaration des structures
-	
-	MyTimer_Struct_TypeDef timer;
-	MyGPIO_Struct_TypeDef gpio;
-	int cycle = DUTYCYCLE_MIN;
+	MyTimer_Struct_TypeDef timer_voiles;
+	MyGPIO_Struct_TypeDef gpio_pwm_voiles;	
 	
 	// Initialisation des périphériques
-	
-	// Initialisation timer
-	timer.Timer = TIM2;
-	timer.ARR = 0xFFFF;
-	timer.PSC = 22;	
-	timer_base_init(&timer);
-	
-	//Initialisation PWM
-	timer_pwm(timer.Timer, 2);
-
-	// Configuration pin de sortie
-	gpio.GPIO = GPIOA;
-	gpio.pin = 1;
-	gpio.config = OUT_ALT_PUSHPULL;	
-	gpio_init(&gpio);
+	voiles_init_pwm(&timer_voiles, &gpio_pwm_voiles);
+	timer_pwm_changecycle(timer_voiles.Timer, 5.0, 2);
 	
 	// Départ du comptage
-	TIMER_BASE_START(timer.Timer);
+	TIMER_BASE_START(timer_voiles.Timer);
 	
 	// Boucle infinie
 	do
 	{
-		if (cycle < DUTYCYCLE_MAX)
-		{
-			timer_pwm_changecycle(timer.Timer, cycle, 2);
-			//Point d'arrêt
-			cycle++;
-		}
+
 	}while(1);
 }
 
