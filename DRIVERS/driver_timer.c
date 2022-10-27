@@ -2,7 +2,7 @@
 #include "driver_timer.h"
 
 void (* TIM2_IRQHandler_funct_ptr) (void) ; /* déclaration d’un pointeur de fonction */
-
+void (* TIM1_IRQHandler_funct_ptr) (void) ;
 /*
 *****************************************************************************************
 * @brief
@@ -33,10 +33,10 @@ void timer_base_init ( MyTimer_Struct_TypeDef * Timer_ptr )
 	}
 	
 	// Configuration autoreload
-	Timer_ptr->Timer->ARR |= Timer_ptr->ARR;
+	Timer_ptr->Timer->ARR = Timer_ptr->ARR;
 	
 	// Configuration prescaler
-	Timer_ptr->Timer->PSC |= Timer_ptr->PSC;
+	Timer_ptr->Timer->PSC = Timer_ptr->PSC;
 }
 
 
@@ -55,6 +55,7 @@ void timer_activeIT(TIM_TypeDef* Timer, char prio, void (*IT_funct) (void))
 	{
 		NVIC_EnableIRQ(TIM1_UP_IRQn);
 		NVIC_SetPriority(TIM1_UP_IRQn, prio);
+		TIM1_IRQHandler_funct_ptr = IT_funct;
 	}
 	else if (Timer == TIM2)
 	{
@@ -157,4 +158,84 @@ void timer_pwm_changecycle( TIM_TypeDef * Timer , char ratio, char channel)
 	
 	}
 }
+
+void Timer_Incremental(TIM_TypeDef* Timer)
+{
+	Timer->ARR = 1439;
+	if (Timer == TIM1)
+	{			
+	
+	TIM1->CCMR1 = (TIM1->CCMR1 & ~(0x3 << 0)) | (0x1 << 0);		
+	TIM1->CCMR1 = (TIM1->CCMR1 & ~(0x3 << 8)) | (0x1 << 8);		
+	
+	TIM1->CCER &= ~(0x1 << 1);		
+	TIM1->CCMR1 &= ~(0xF << 4);
+	TIM1->CCER |= (0x1 << 0);
+	
+	TIM1->CCER &= ~(0x1 << 5);		
+	TIM1->CCMR1 &= ~(0xF << 12);
+	TIM1->CCER |= (0x1 << 4);
+	
+	TIM1->SMCR = (TIM1->SMCR & ~(0x7 << 0)) | (0x3 << 0);				
+	
+	TIM1->CR1 |= (0x1 << 0);
+		
+	
+	}
+	if (Timer == TIM2)
+	{				
+	
+	TIM2->CCMR1 = (TIM2->CCMR1 & ~(0x3 << 0)) | (0x1 << 0);		
+	TIM2->CCMR1 = (TIM2->CCMR1 & ~(0x3 << 8)) | (0x1 << 8);		
+	
+	TIM2->CCER &= ~(0x1 << 1);		
+	TIM2->CCMR1 &= ~(0xF << 4);
+	TIM2->CCER |= (0x1 << 0);
+	
+	TIM2->CCER &= ~(0x1 << 5);		
+	TIM2->CCMR1 &= ~(0xF << 12);
+	TIM2->CCER |= (0x1 << 4);
+	
+	TIM2->SMCR = (TIM2->SMCR & ~(0x7 << 0)) | (0x3 << 0);				
+	
+	TIM2->CR1 |= (0x1 << 0);
+	}
+	if (Timer == TIM3)
+	{		
+	
+	TIM3->CCMR1 = (TIM3->CCMR1 & ~(0x3 << 0)) | (0x1 << 0);		
+	TIM3->CCMR1 = (TIM3->CCMR1 & ~(0x3 << 8)) | (0x1 << 8);		
+	
+	TIM3->CCER &= ~(0x1 << 1);		
+	TIM3->CCMR1 &= ~(0xF << 4);
+	TIM3->CCER |= (0x1 << 0);
+	
+	TIM3->CCER &= ~(0x1 << 5);		
+	TIM3->CCMR1 &= ~(0xF << 12);
+	TIM3->CCER |= (0x1 << 4);
+	
+	TIM3->SMCR = (TIM3->SMCR & ~(0x7 << 0)) | (0x3 << 0);				
+	
+	TIM3->CR1 |= (0x1 << 0);
+	}
+	if (Timer == TIM4)
+	{			
+	
+	TIM4->CCMR1 = (TIM4->CCMR1 & ~(0x3 << 0)) | (0x1 << 0);		
+	TIM4->CCMR1 = (TIM4->CCMR1 & ~(0x3 << 8)) | (0x1 << 8);		
+	
+	TIM4->CCER &= ~(0x1 << 1);		
+	TIM4->CCMR1 &= ~(0xF << 4);
+	TIM4->CCER |= (0x1 << 0);
+	
+	TIM4->CCER &= ~(0x1 << 5);		
+	TIM4->CCMR1 &= ~(0xF << 12);
+	TIM4->CCER |= (0x1 << 4);
+	
+	TIM4->SMCR = (TIM4->SMCR & ~(0x7 << 0)) | (0x3 << 0);				
+	
+	TIM4->CR1 |= (0x1 << 0);
+	}
+}
+
 

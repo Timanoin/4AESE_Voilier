@@ -34,6 +34,8 @@ void TIM2_IRQHandler(void);
 //void TIM3_IRQHandler(void);
 //void TIM4_IRQHandler(void);
 
+void Timer_Incremental(TIM_TypeDef* Timer);
+
 #define TIMER_BASE_START(Timer) ((Timer)->CR1|=TIM_CR1_CEN)
 #define TIMER_BASE_STOP(Timer) ((Timer)->CR1&=~TIM_CR1_CEN)
 
