@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>.\Headers;..\DRIVERS</IncludePath>
+              <IncludePath>.\Headers;..\DRIVERS;.\Sources</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -387,6 +387,16 @@
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Sources\main.c</FilePath>
+            </File>
+            <File>
+              <FileName>m_voiles.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\m_voiles.c</FilePath>
+            </File>
+            <File>
+              <FileName>m_voiles.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\m_voiles.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -804,6 +814,16 @@
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Sources\main.c</FilePath>
+            </File>
+            <File>
+              <FileName>m_voiles.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\m_voiles.c</FilePath>
+            </File>
+            <File>
+              <FileName>m_voiles.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\m_voiles.h</FilePath>
             </File>
           </Files>
         </Group>

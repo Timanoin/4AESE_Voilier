@@ -137,25 +137,24 @@ void timer_pwm( TIM_TypeDef * Timer , char Channel )
 }
 
 // Change le duty cycle de la PWM de Timer sur le channel
-void timer_pwm_changecycle( TIM_TypeDef * Timer , char ratio, char channel)
+void timer_pwm_changecycle( TIM_TypeDef * Timer , float ratio, char channel)
 {
 	switch (channel)
 	{
 		case 1:
-			Timer->CCR1 = Timer->ARR * ratio / 100;
+			Timer->CCR1 = (int) Timer->ARR * ratio / 100;
 			break;		
 		case 2:
-			Timer->CCR2 = Timer->ARR * ratio / 100;
+			Timer->CCR2 = (int) Timer->ARR * ratio / 100;
 			break;	
 		case 3:
-			Timer->CCR3 = Timer->ARR * ratio / 100;
+			Timer->CCR3 = (int) Timer->ARR * ratio / 100;
 			break;	
 		case 4:
-			Timer->CCR4 |= Timer->ARR * ratio / 100;
+			Timer->CCR4 = (int) Timer->ARR * ratio / 100;
 			break;		
 		default:
 			break;
-	
 	}
 }
 
