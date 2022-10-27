@@ -16,7 +16,7 @@
         <TargetCommonOption>
           <Device>STM32F103RB</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32F1xx_DFP.2.4.0</PackID>
+          <PackID>Keil.STM32F1xx_DFP.2.3.0</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IRAM(0x20000000,0x00005000) IROM(0x08000000,0x00020000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>.\Headers;..\DRIVERS</IncludePath>
+              <IncludePath>.\Headers;..\DRIVERS;..\F1_Girouette_GPIO</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -388,6 +388,16 @@
               <FileType>1</FileType>
               <FilePath>.\Sources\main.c</FilePath>
             </File>
+            <File>
+              <FileName>girouette.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\girouette.c</FilePath>
+            </File>
+            <File>
+              <FileName>girouette.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\girouette.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -413,6 +423,21 @@
               <FileType>5</FileType>
               <FilePath>..\DRIVERS\driver_timer.h</FilePath>
             </File>
+            <File>
+              <FileName>Lib_Com_Periph_2022.lib</FileName>
+              <FileType>4</FileType>
+              <FilePath>C:\Users\lagrost\Downloads\Lib_Com_Periph_2022\Lib_Com_Periph_2022.lib</FilePath>
+            </File>
+            <File>
+              <FileName>MyI2C.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>C:\Users\lagrost\Downloads\Lib_Com_Periph_2022\MyI2C.h</FilePath>
+            </File>
+            <File>
+              <FileName>MySPI.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>C:\Users\lagrost\Downloads\Lib_Com_Periph_2022\MySPI.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -433,7 +458,7 @@
         <TargetCommonOption>
           <Device>STM32F103RB</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32F1xx_DFP.2.4.0</PackID>
+          <PackID>Keil.STM32F1xx_DFP.2.3.0</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IRAM(0x20000000,0x00005000) IROM(0x08000000,0x00020000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -532,8 +557,8 @@
           <SimDlgDllArguments>-pSTM32F103RB</SimDlgDllArguments>
           <TargetDllName>SARMCM3.DLL</TargetDllName>
           <TargetDllArguments></TargetDllArguments>
-          <TargetDlgDll>TCM.DLL</TargetDlgDll>
-          <TargetDlgDllArguments>-pCM3</TargetDlgDllArguments>
+          <TargetDlgDll>TARMSTM.DLL</TargetDlgDll>
+          <TargetDlgDllArguments>-pSTM32F103RB</TargetDlgDllArguments>
         </DllOption>
         <DebugOption>
           <OPTHX>
@@ -756,7 +781,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>.\Headers;..\DRIVERS</IncludePath>
+              <IncludePath>.\Headers;..\DRIVERS;..\F1_Girouette_GPIO</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -805,6 +830,16 @@
               <FileType>1</FileType>
               <FilePath>.\Sources\main.c</FilePath>
             </File>
+            <File>
+              <FileName>girouette.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\girouette.c</FilePath>
+            </File>
+            <File>
+              <FileName>girouette.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\girouette.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -829,6 +864,21 @@
               <FileName>driver_timer.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\DRIVERS\driver_timer.h</FilePath>
+            </File>
+            <File>
+              <FileName>Lib_Com_Periph_2022.lib</FileName>
+              <FileType>4</FileType>
+              <FilePath>C:\Users\lagrost\Downloads\Lib_Com_Periph_2022\Lib_Com_Periph_2022.lib</FilePath>
+            </File>
+            <File>
+              <FileName>MyI2C.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>C:\Users\lagrost\Downloads\Lib_Com_Periph_2022\MyI2C.h</FilePath>
+            </File>
+            <File>
+              <FileName>MySPI.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>C:\Users\lagrost\Downloads\Lib_Com_Periph_2022\MySPI.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -864,7 +914,7 @@
       <file attr="config" category="header" name="RTE_Driver\Config\RTE_Device.h" version="1.1.2">
         <instance index="0">RTE\Device\STM32F103RB\RTE_Device.h</instance>
         <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="1.0.0" condition="STM32F1xx CMSIS"/>
-        <package name="STM32F1xx_DFP" schemaVersion="1.7.2" url="http://www.keil.com/pack/" vendor="Keil" version="2.4.0"/>
+        <package name="STM32F1xx_DFP" schemaVersion="1.4.0" url="http://www.keil.com/pack/" vendor="Keil" version="2.3.0"/>
         <targetInfos>
           <targetInfo name="Reel"/>
           <targetInfo name="Simulation"/>
@@ -873,7 +923,7 @@
       <file attr="config" category="source" condition="STM32F1xx MD ARMCC" name="Device\Source\ARM\startup_stm32f10x_md.s" version="1.0.1">
         <instance index="0">RTE\Device\STM32F103RB\startup_stm32f10x_md.s</instance>
         <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="1.0.0" condition="STM32F1xx CMSIS"/>
-        <package name="STM32F1xx_DFP" schemaVersion="1.7.2" url="http://www.keil.com/pack/" vendor="Keil" version="2.4.0"/>
+        <package name="STM32F1xx_DFP" schemaVersion="1.4.0" url="http://www.keil.com/pack/" vendor="Keil" version="2.3.0"/>
         <targetInfos>
           <targetInfo name="Reel"/>
           <targetInfo name="Simulation"/>
@@ -882,7 +932,7 @@
       <file attr="config" category="source" name="Device\Source\system_stm32f10x.c" version="1.0.1">
         <instance index="0">RTE\Device\STM32F103RB\system_stm32f10x.c</instance>
         <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="1.0.0" condition="STM32F1xx CMSIS"/>
-        <package name="STM32F1xx_DFP" schemaVersion="1.7.2" url="http://www.keil.com/pack/" vendor="Keil" version="2.4.0"/>
+        <package name="STM32F1xx_DFP" schemaVersion="1.4.0" url="http://www.keil.com/pack/" vendor="Keil" version="2.3.0"/>
         <targetInfos>
           <targetInfo name="Reel"/>
           <targetInfo name="Simulation"/>
