@@ -27,12 +27,11 @@ int main(void)
 	MyGPIO_Struct_TypeDef  gpio_pwm_plateau;
 	MyGPIO_Struct_TypeDef  gpio_pwm_sens;
 	MyUSART_Struct_Typedef usart_telecommande;
-	
+	MyGPIO_Struct_TypeDef  gpio_usart_rx_telecommande;
 	
 	// Initialisation des périphériques
-	orientation_init(&timer_pwm_plateau, &gpio_pwm_plateau, &gpio_pwm_sens, &usart_telecommande);
+	orientation_init(&timer_pwm_plateau, &gpio_pwm_plateau, &gpio_pwm_sens, &usart_telecommande, &gpio_usart_rx_telecommande);
 
-	
 	// Départ du comptage
   TIMER_BASE_START(TIM3);
 	

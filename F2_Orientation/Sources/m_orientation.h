@@ -11,7 +11,8 @@
 void orientation_init(MyTimer_Struct_TypeDef* timer_pwm, 
 											MyGPIO_Struct_TypeDef*  gpio_pwm,
 											MyGPIO_Struct_TypeDef*  gpio_sens,
-											MyUSART_Struct_Typedef* usart);
+											MyUSART_Struct_Typedef* usart,
+											MyGPIO_Struct_TypeDef*  gpio_usart_rx);
 
 // Renvoie le signe d'un char signé
 static char orientation_get_signe(signed char data);
@@ -25,7 +26,5 @@ static char orientation_val_abs(signed char data);
 void orientation_gestion_plateau(MyTimer_Struct_TypeDef* timer_pwm, 
 																 MyGPIO_Struct_TypeDef*  gpio_sens,
 																 MyUSART_Struct_Typedef* usart);
-
-
 
 #endif

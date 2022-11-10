@@ -29,8 +29,6 @@ typedef struct {
  * INIT *
  ********/
 
-// Initialize and return a MyUSART_Struct_Typedef.
-MyUSART_Struct_Typedef usart_struct_init(USART_TypeDef* usart, char stop_bits, short baud_rate_div);
 
 // Initialize the chosen USART peripheral.
 // Parameter : MyUSART_Struct_Typedef* usart_struct = usart struct to initialize.

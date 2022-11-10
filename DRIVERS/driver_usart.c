@@ -14,21 +14,6 @@ char usart3_buffer_tr_len = 0;
  * INIT *
  ********/
 
-// Initialize and return a MyUSART_Struct_Typedef.
-MyUSART_Struct_Typedef usart_struct_init(USART_TypeDef* usart, 
-																				 char stop_bits, 
-																				 short baud_rate_div)
-{
-	// Definition of USART structure
-	MyUSART_Struct_Typedef usart_struct;
-	// Initialization of each component of the structure
-	usart_struct.usart = usart;
-	usart_struct.stop_bits = stop_bits;
-	usart_struct.baud_rate_div = baud_rate_div;	
-	
-	return usart_struct;
-}
-
 // Initialize the chosen USART.
 // Parameter : MyUSART_Struct_Typedef* usart_struct = usart struct to initialize.
 void usart_init(MyUSART_Struct_Typedef* usart_struct)
@@ -42,12 +27,20 @@ void usart_init(MyUSART_Struct_Typedef* usart_struct)
 	{
 		RCC->APB1ENR |= RCC_APB1ENR_USART3EN;
 	}
-	// Enable the USART
-	usart_struct->usart->CR1 |= USART_CR1_UE;	
+
+	// Disable Parity
+	usart_struct->usart->CR1 &= ~USART_CR1_PCE;
 	// Configuration of transmission mode
 	usart_init_transmission(usart_struct);	
 	// Configuration of reception mode
 	usart_init_reception(usart_struct);
+	
+	// Enable the USART
+	usart_struct->usart->CR1 |= USART_CR1_UE;	 
+	// Interruptions
+	NVIC_EnableIRQ(USART3_IRQn);
+	NVIC_SetPriority(USART3_IRQn, 15);
+
 }
 
 // Initialize the chosen USART in transmission mode.
@@ -123,51 +116,19 @@ char usart_get_data_buffer(USART_TypeDef* usart)
 /************
  * HANDLERS *
  ************/
- 
+
 void USART1_IRQHandler(void)
 {
-	// Case when the interruption is due to reception incoming
-	if (USART1->SR & USART_SR_RXNE)
-	{
-		// Clear interruption flag
-		USART1->SR &= ~USART_SR_RXNE;	
-		// Places the new received character in the buffer
-		usart1_buffer = USART1->DR;
-	}
-	
-	// Case when the interruption is due to possible emission
-	if (USART1->SR & USART_SR_TXE)
-	{
-		if (usart1_buffer_tr_len > 0)
-		{
-			// Clear interruption flag
-			USART1->SR &= ~USART_SR_TXE;
-			// Places the last character from buffer in DR
-			USART1->DR = usart1_buffer_tr[usart1_buffer_tr_len--];
-		}
-	}
+	// Clear interruption flag
+	USART1->SR &= ~USART_SR_RXNE;	
+	// Places the new received character in the buffer
+	usart1_buffer = USART1->DR;
 }
  
- void USART3_IRQHandler(void)
- {
-	// Case when the interruption is due to reception incoming
-	if (USART3->SR & USART_SR_RXNE)
-	{
-		// Clear interruption flag
-		USART3->SR &= ~USART_SR_RXNE;
-		// Places the new received character in the buffer		
-		usart3_buffer = USART3->DR;
-	}
-	
-	// Case when the interruption is due to possible emission
-	if (USART3->SR & USART_SR_TXE)
-	{
-		if (usart3_buffer_tr_len > 0)
-		{
-			// Clear interruption flag
-			USART3->SR &= ~USART_SR_TXE;
-			// Places the last character from buffer in DR
-			USART3->DR = usart3_buffer_tr[usart3_buffer_tr_len--];
-		}
-	}
- }
+void USART3_IRQHandler(void)
+{
+	// Clear interruption flag
+	USART3->SR &= ~USART_SR_RXNE;
+	// Places the new received character in the buffer		
+	usart3_buffer = USART3->DR;
+}

@@ -12,7 +12,8 @@
 void orientation_init(MyTimer_Struct_TypeDef* timer, 
 											MyGPIO_Struct_TypeDef*  gpio_pwm,
 											MyGPIO_Struct_TypeDef*  gpio_sens,
-											MyUSART_Struct_Typedef* usart)
+											MyUSART_Struct_Typedef* usart,
+											MyGPIO_Struct_TypeDef*  gpio_usart_rx)
 {	
 	// Initialisation timer
 	timer->Timer = TIM3;
@@ -35,9 +36,21 @@ void orientation_init(MyTimer_Struct_TypeDef* timer,
 	gpio_sens->config = OUT_PUSHPULL;	
 	gpio_init(gpio_sens);
 	
+	// Configuration pin de sortie sens
+	gpio_usart_rx->GPIO = GPIOB;
+	gpio_usart_rx->pin = 11;
+	gpio_usart_rx->config = IN_FLOATING;	
+	gpio_init(gpio_usart_rx);
+	
+	
 	// Configuration USART
-	*usart = usart_struct_init(USART3, 2, 0xEA6); //0xEA6 : baud rate = 9600
+		// Initialization of each component of the structure
+	usart->usart = USART3;
+	usart->stop_bits = 2;
+	usart->baud_rate_div = 3750;	
 	usart_init(usart);
+	
+
 }
 
 // Renvoie le signe d'un char signé
@@ -64,11 +77,11 @@ void orientation_gestion_plateau(MyTimer_Struct_TypeDef* timer_pwm,
 	// Bit de signe
 	if (orientation_get_signe(data_buffer))
 	{
-		gpio_set(gpio_sens->GPIO, gpio_sens->pin);
+		gpio_reset(gpio_sens->GPIO, gpio_sens->pin);
 	}
 	else
 	{
-		gpio_reset(gpio_sens->GPIO, gpio_sens->pin);
+		gpio_set(gpio_sens->GPIO, gpio_sens->pin);
 	}
 	// Changement dutycycle PWM
 	timer_pwm_changecycle(timer_pwm->Timer, (float)duty_cycle, ORIENTATION_PWM_CH);
