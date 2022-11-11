@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>.\Headers;..\DRIVERS;.\Sources</IncludePath>
+              <IncludePath>.\Headers;..\DRIVERS</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -387,6 +387,26 @@
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Sources\main.c</FilePath>
+            </File>
+            <File>
+              <FileName>girouette.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\girouette.c</FilePath>
+            </File>
+            <File>
+              <FileName>girouette.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\girouette.h</FilePath>
+            </File>
+            <File>
+              <FileName>m_voiles.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\m_voiles.c</FilePath>
+            </File>
+            <File>
+              <FileName>m_voiles.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\m_voiles.h</FilePath>
             </File>
             <File>
               <FileName>m_orientation.c</FileName>
@@ -552,8 +572,8 @@
           <SimDlgDllArguments>-pSTM32F103RB</SimDlgDllArguments>
           <TargetDllName>SARMCM3.DLL</TargetDllName>
           <TargetDllArguments></TargetDllArguments>
-          <TargetDlgDll>TARMSTM.DLL</TargetDlgDll>
-          <TargetDlgDllArguments>-pSTM32F103RB</TargetDlgDllArguments>
+          <TargetDlgDll>TCM.DLL</TargetDlgDll>
+          <TargetDlgDllArguments>-pCM3</TargetDlgDllArguments>
         </DllOption>
         <DebugOption>
           <OPTHX>
@@ -824,6 +844,26 @@
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Sources\main.c</FilePath>
+            </File>
+            <File>
+              <FileName>girouette.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\girouette.c</FilePath>
+            </File>
+            <File>
+              <FileName>girouette.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\girouette.h</FilePath>
+            </File>
+            <File>
+              <FileName>m_voiles.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\m_voiles.c</FilePath>
+            </File>
+            <File>
+              <FileName>m_voiles.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\m_voiles.h</FilePath>
             </File>
             <File>
               <FileName>m_orientation.c</FileName>
