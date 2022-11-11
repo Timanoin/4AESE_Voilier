@@ -408,6 +408,16 @@
               <FileType>5</FileType>
               <FilePath>.\Sources\m_voiles.h</FilePath>
             </File>
+            <File>
+              <FileName>m_orientation.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\m_orientation.c</FilePath>
+            </File>
+            <File>
+              <FileName>m_orientation.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\m_orientation.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -432,6 +442,16 @@
               <FileName>driver_timer.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\DRIVERS\driver_timer.h</FilePath>
+            </File>
+            <File>
+              <FileName>driver_usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DRIVERS\driver_usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>driver_usart.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\DRIVERS\driver_usart.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -845,6 +865,16 @@
               <FileType>5</FileType>
               <FilePath>.\Sources\m_voiles.h</FilePath>
             </File>
+            <File>
+              <FileName>m_orientation.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\m_orientation.c</FilePath>
+            </File>
+            <File>
+              <FileName>m_orientation.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\m_orientation.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -869,6 +899,16 @@
               <FileName>driver_timer.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\DRIVERS\driver_timer.h</FilePath>
+            </File>
+            <File>
+              <FileName>driver_usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DRIVERS\driver_usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>driver_usart.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\DRIVERS\driver_usart.h</FilePath>
             </File>
           </Files>
         </Group>

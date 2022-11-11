@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>.\Headers;..\DRIVERS</IncludePath>
+              <IncludePath>.\Headers;..\DRIVERS;.\Sources</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -389,24 +389,14 @@
               <FilePath>.\Sources\main.c</FilePath>
             </File>
             <File>
-              <FileName>girouette.c</FileName>
+              <FileName>m_orientation.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Sources\girouette.c</FilePath>
+              <FilePath>.\Sources\m_orientation.c</FilePath>
             </File>
             <File>
-              <FileName>girouette.h</FileName>
+              <FileName>m_orientation.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Sources\girouette.h</FilePath>
-            </File>
-            <File>
-              <FileName>m_voiles.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Sources\m_voiles.c</FilePath>
-            </File>
-            <File>
-              <FileName>m_voiles.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Sources\m_voiles.h</FilePath>
+              <FilePath>.\Sources\m_orientation.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -432,6 +422,16 @@
               <FileName>driver_timer.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\DRIVERS\driver_timer.h</FilePath>
+            </File>
+            <File>
+              <FileName>driver_usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DRIVERS\driver_usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>driver_usart.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\DRIVERS\driver_usart.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -552,8 +552,8 @@
           <SimDlgDllArguments>-pSTM32F103RB</SimDlgDllArguments>
           <TargetDllName>SARMCM3.DLL</TargetDllName>
           <TargetDllArguments></TargetDllArguments>
-          <TargetDlgDll>TCM.DLL</TargetDlgDll>
-          <TargetDlgDllArguments>-pCM3</TargetDlgDllArguments>
+          <TargetDlgDll>TARMSTM.DLL</TargetDlgDll>
+          <TargetDlgDllArguments>-pSTM32F103RB</TargetDlgDllArguments>
         </DllOption>
         <DebugOption>
           <OPTHX>
@@ -826,24 +826,14 @@
               <FilePath>.\Sources\main.c</FilePath>
             </File>
             <File>
-              <FileName>girouette.c</FileName>
+              <FileName>m_orientation.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Sources\girouette.c</FilePath>
+              <FilePath>.\Sources\m_orientation.c</FilePath>
             </File>
             <File>
-              <FileName>girouette.h</FileName>
+              <FileName>m_orientation.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Sources\girouette.h</FilePath>
-            </File>
-            <File>
-              <FileName>m_voiles.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Sources\m_voiles.c</FilePath>
-            </File>
-            <File>
-              <FileName>m_voiles.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Sources\m_voiles.h</FilePath>
+              <FilePath>.\Sources\m_orientation.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -869,6 +859,16 @@
               <FileName>driver_timer.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\DRIVERS\driver_timer.h</FilePath>
+            </File>
+            <File>
+              <FileName>driver_usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DRIVERS\driver_usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>driver_usart.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\DRIVERS\driver_usart.h</FilePath>
             </File>
           </Files>
         </Group>
