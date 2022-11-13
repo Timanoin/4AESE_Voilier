@@ -34,14 +34,6 @@ typedef struct {
 // Parameter : MyUSART_Struct_Typedef* usart_struct = usart struct to initialize.
 void usart_init(MyUSART_Struct_Typedef* usart_struct);
 
-// Initialize the chosen USART in transmission mode.
-// Parameter : MyUSART_Struct_Typedef* usart_struct = usart struct to initialize.
-static void usart_init_transmission(MyUSART_Struct_Typedef* usart_struct);
-
-// Initialize the chosen USART in reception mode.
-// Parameter : MyUSART_Struct_Typedef* usart_struct = usart struct to initialize.
-static void usart_init_reception(MyUSART_Struct_Typedef* usart_struct);
-
 /***********
  * UTILITY *
  ***********/
@@ -51,11 +43,6 @@ static void usart_init_reception(MyUSART_Struct_Typedef* usart_struct);
 //              char*          data   = transmitted string of char 
 // 							char					 length = size of data
 void usart_transmit_string(USART_TypeDef* usart, char* data, char length);
-
-// Transmission of a char with UART
-// Parameters : USART_TypeDef* usart     = USART used for transmission
-//              char           character = transmitted char
-static void usart_transmit_char(USART_TypeDef* usart, char character);
 
 // Reading the character contained in the one byte buffer of the USART. 
 // Buffer is updated with interruptions.

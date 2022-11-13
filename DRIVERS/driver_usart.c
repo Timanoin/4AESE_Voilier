@@ -31,22 +31,8 @@ void usart_init(MyUSART_Struct_Typedef* usart_struct)
 	// Disable Parity
 	usart_struct->usart->CR1 &= ~USART_CR1_PCE;
 	// Configuration of transmission mode
-	usart_init_transmission(usart_struct);	
-	// Configuration of reception mode
-	usart_init_reception(usart_struct);
-	
-	// Enable the USART
-	usart_struct->usart->CR1 |= USART_CR1_UE;	 
-	// Interruptions
-	NVIC_EnableIRQ(USART3_IRQn);
-	NVIC_SetPriority(USART3_IRQn, 15);
-
-}
-
-// Initialize the chosen USART in transmission mode.
-// Parameter : MyUSART_Struct_Typedef* usart_struct = usart struct to initialize.
-static void usart_init_transmission(MyUSART_Struct_Typedef* usart_struct)
-{
+	// Enbale itnerruption
+	usart_struct->usart->CR1 |= USART_CR1_TXEIE;
 	// Sending 8 bits each time (M=1 => 9 bits each time)
 	usart_struct->usart->CR1 &= ~USART_CR1_M;
 	// Number of stop bits	
@@ -54,23 +40,20 @@ static void usart_init_transmission(MyUSART_Struct_Typedef* usart_struct)
 	usart_struct->usart->CR2 |= usart_struct->stop_bits;
 	// Baud rate
 	usart_struct->usart->BRR = usart_struct->baud_rate_div;
-}
-
-// Initialize the chosen USART in reception mode.
-// Parameter : MyUSART_Struct_Typedef* usart_struct = usart struct to initialize.
-static void usart_init_reception(MyUSART_Struct_Typedef* usart_struct)
-{
+	
+	// Configuration of reception mode
 	// Enable interruptions
 	usart_struct->usart->CR1 |= USART_CR1_RXNEIE; // Register Not Empty Interruption Enable
-	// Receiving 8 bits each time (char = 1 byte) (M=1 => 9 bits each time)
-	usart_struct->usart->CR1 &= ~USART_CR1_M;
-	// Number of stop bits	
-	usart_struct->usart->CR2 &= ~USART_CR2_STOP;
-	usart_struct->usart->CR2 |= usart_struct->stop_bits;
-	// Baud rate
-	usart_struct->usart->BRR = usart_struct->baud_rate_div;
 	// USART starts searching for a start bit (Read Enable)
 	usart_struct->usart->CR1 |= USART_CR1_RE;
+	
+	// Interruptions
+	NVIC_EnableIRQ(USART3_IRQn);
+	NVIC_SetPriority(USART3_IRQn, 15);
+	
+	// Enable the USART
+	usart_struct->usart->CR1 |= USART_CR1_UE;	 
+
 }
 
 /***********
@@ -97,7 +80,6 @@ void usart_transmit_string(USART_TypeDef* usart, char* data, char length)
 		usart3_buffer_tr_len = length;
 		for (i=0; i<length; i++) usart3_buffer_tr[i] = data[i];
 	}
-	
 }
 
 // Reading the character contained in the one byte buffer of the USART. 
@@ -119,16 +101,42 @@ char usart_get_data_buffer(USART_TypeDef* usart)
 
 void USART1_IRQHandler(void)
 {
-	// Clear interruption flag
-	USART1->SR &= ~USART_SR_RXNE;	
-	// Places the new received character in the buffer
-	usart1_buffer = USART1->DR;
+	if (USART1->SR & USART_SR_RXNE)
+	{
+		// Clear interruption flag
+		USART1->SR &= ~USART_SR_RXNE;	
+		// Places the new received character in the buffer
+		usart1_buffer = USART1->DR;
+	}
+	else if ((USART1->SR & USART_SR_TXE) && usart1_buffer_tr_len > 0)
+	{
+		// Clear interruption flag
+		USART1->SR &= ~USART_SR_TXE;
+		// Send the character from the buffer in the data register
+		USART1->DR = usart1_buffer_tr[--usart1_buffer_tr_len] ;
+		
+	}
 }
  
 void USART3_IRQHandler(void)
 {
-	// Clear interruption flag
-	USART3->SR &= ~USART_SR_RXNE;
-	// Places the new received character in the buffer		
-	usart3_buffer = USART3->DR;
+	if (USART3->SR & USART_SR_RXNE)
+	{
+		// Clear interruption flag
+		USART3->SR &= ~USART_SR_RXNE;
+		// Places the new received character in the buffer		
+		usart3_buffer = USART3->DR;
+	}
+	else 
+if (USART3->SR & USART_SR_TXE)
+	{
+		// Clear interruption flag
+		USART3->SR &= ~USART_SR_TXE;
+		// Send the character from the buffer in the data register
+		if (usart3_buffer_tr_len > 0) 
+		{
+			USART3->DR = usart3_buffer_tr[--usart3_buffer_tr_len] ;
+		}
+		
+	}
 }
