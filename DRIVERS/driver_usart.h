@@ -38,11 +38,12 @@ void usart_init(MyUSART_Struct_Typedef* usart_struct);
  * UTILITY *
  ***********/
  
-// Transmission of a string of char with UART
+// Transmission of a string of char with USART
 // Parameters : USART_TypeDef* usart  = USART used for transmission
 //              char*          data   = transmitted string of char 
 // 							char					 length = size of data
 void usart_transmit_string(USART_TypeDef* usart, char* data, char length);
+
 
 // Reading the character contained in the one byte buffer of the USART. 
 // Buffer is updated with interruptions.

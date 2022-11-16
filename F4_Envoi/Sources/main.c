@@ -15,24 +15,25 @@
 int main(void)
 {
 	// Déclaration des structures
-	int att = 0;
 	MyUSART_Struct_Typedef usart;
+	MyGPIO_Struct_TypeDef gpio;
 	usart.usart = USART3;
 	usart.stop_bits = 2;
 	usart.baud_rate_div = 3750;	
 	usart_init(&usart);
 	
+	// Configuration pin d'entrée GPIO
+	gpio.GPIO = GPIOB;
+	gpio.pin = 10;
+	gpio.config = OUT_PUSHPULL;	
+	gpio_init(&gpio);
+	
 	// Départ du comptage
   TIMER_BASE_START(TIM3);
-	att = 0;
 	// Boucle infinie
 	do
 	{
-		if (att++ > 10) 
-		{
-			usart_transmit_string(usart.usart, "caca", 4);
-			att = 0;
-		}
+		usart_transmit_string(usart.usart, "haha \n", 6);
 	}while(1);
 }
 
