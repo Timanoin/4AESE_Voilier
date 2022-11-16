@@ -5,8 +5,6 @@
 #include "driver_gpio.h"
 #include "driver_usart.h"
 
-#define ORIENTATION_PWM_CH 1
-
 // FONCTION D'INITIALISATION
 // Initialise la PWM necessaire a l'orientation du plateau
 void orientation_init(MyTimer_Struct_TypeDef* timer, 
@@ -22,17 +20,17 @@ void orientation_init(MyTimer_Struct_TypeDef* timer,
 	timer_base_init(timer);
 	
 	// Initialisation PWM
-	timer_pwm(timer->Timer, ORIENTATION_PWM_CH);
+	timer_pwm(timer->Timer, 3);
 
 	// Configuration pin de sortie PWM
-	gpio_pwm->GPIO = GPIOA;
-	gpio_pwm->pin = 6;
+	gpio_pwm->GPIO = GPIOB;
+	gpio_pwm->pin = 0;
 	gpio_pwm->config = OUT_ALT_PUSHPULL;	
 	gpio_init(gpio_pwm);
 	
 	// Configuration pin de sortie sens
-	gpio_sens->GPIO = GPIOA;
-	gpio_sens->pin = 7;
+	gpio_sens->GPIO = GPIOB;
+	gpio_sens->pin = 1;
 	gpio_sens->config = OUT_PUSHPULL;	
 	gpio_init(gpio_sens);
 	
@@ -84,6 +82,6 @@ void orientation_gestion_plateau(MyTimer_Struct_TypeDef* timer_pwm,
 		gpio_set(gpio_sens->GPIO, gpio_sens->pin);
 	}
 	// Changement dutycycle PWM
-	timer_pwm_changecycle(timer_pwm->Timer, (float)duty_cycle, ORIENTATION_PWM_CH);
+	timer_pwm_changecycle(timer_pwm->Timer, (float)duty_cycle, 3);
 }
 
