@@ -388,6 +388,26 @@
               <FileType>1</FileType>
               <FilePath>.\Sources\main.c</FilePath>
             </File>
+            <File>
+              <FileName>m_envoi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\m_envoi.c</FilePath>
+            </File>
+            <File>
+              <FileName>m_envoi.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\m_envoi.h</FilePath>
+            </File>
+            <File>
+              <FileName>m_voiles.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\m_voiles.c</FilePath>
+            </File>
+            <File>
+              <FileName>m_voiles.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\m_voiles.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -422,6 +442,16 @@
               <FileName>driver_usart.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\DRIVERS\driver_usart.h</FilePath>
+            </File>
+            <File>
+              <FileName>driver_adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DRIVERS\driver_adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>driver_adc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\DRIVERS\driver_adc.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -815,6 +845,26 @@
               <FileType>1</FileType>
               <FilePath>.\Sources\main.c</FilePath>
             </File>
+            <File>
+              <FileName>m_envoi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\m_envoi.c</FilePath>
+            </File>
+            <File>
+              <FileName>m_envoi.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\m_envoi.h</FilePath>
+            </File>
+            <File>
+              <FileName>m_voiles.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\m_voiles.c</FilePath>
+            </File>
+            <File>
+              <FileName>m_voiles.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\m_voiles.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -849,6 +899,16 @@
               <FileName>driver_usart.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\DRIVERS\driver_usart.h</FilePath>
+            </File>
+            <File>
+              <FileName>driver_adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DRIVERS\driver_adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>driver_adc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\DRIVERS\driver_adc.h</FilePath>
             </File>
           </Files>
         </Group>

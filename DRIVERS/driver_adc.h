@@ -9,13 +9,13 @@
 typedef struct {
     ADC_TypeDef* ADC;
 		char 				 channel;
-} MyADC_Struct_Typedef;
+} MyADC_Struct_TypeDef;
 
 // Démarre l'ADC
 #define ADC_START(ADC) ((ADC)->CR2|=ADC_CR2_ADON)
 
 // Initialise l'ADC choisi.
-void adc_init(MyADC_Struct_Typedef* adc_struct);
+void adc_init(MyADC_Struct_TypeDef* adc_struct);
 
 // Lance une conversion sur le channel initialisé
 void adc_convert_once(ADC_TypeDef* ADC);

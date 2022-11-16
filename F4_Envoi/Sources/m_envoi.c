@@ -1,89 +1,38 @@
-#include "m_orientation.h"
+#include "m_envoi.h"
 #include "stm32f10x.h"
+#include <stdlib.h>
 
 #include "driver_timer.h"
 #include "driver_gpio.h"
 #include "driver_usart.h"
-
-#define ORIENTATION_PWM_CH 1
+#include "driver_adc.h"
 
 // FONCTION D'INITIALISATION
-// Initialise la PWM necessaire a l'orientation du plateau
-void orientation_init(MyTimer_Struct_TypeDef* timer, 
-											MyGPIO_Struct_TypeDef*  gpio_pwm,
-											MyGPIO_Struct_TypeDef*  gpio_sens,
-											MyUSART_Struct_Typedef* usart,
-											MyGPIO_Struct_TypeDef*  gpio_usart_rx)
-{	
-	// Initialisation timer
-	timer->Timer = TIM3;
-	timer->ARR = 0x0E10; // 0d3600
-	timer->PSC = 0;	
-	timer_base_init(timer);
+// Initialise les peripheriques necessaires a l'envoi d'informations
+void envoi_init(MyADC_Struct_TypeDef* adc_batterie,
+								MyGPIO_Struct_TypeDef* gpio_adc_batterie)
+{
+	adc_batterie->ADC = ADC1;
+	adc_batterie->channel = 12;
+	adc_init(adc_batterie);
 	
-	// Initialisation PWM
-	timer_pwm(timer->Timer, ORIENTATION_PWM_CH);
-
-	// Configuration pin de sortie PWM
-	gpio_pwm->GPIO = GPIOA;
-	gpio_pwm->pin = 6;
-	gpio_pwm->config = OUT_ALT_PUSHPULL;	
-	gpio_init(gpio_pwm);
-	
-	// Configuration pin de sortie sens
-	gpio_sens->GPIO = GPIOA;
-	gpio_sens->pin = 7;
-	gpio_sens->config = OUT_PUSHPULL;	
-	gpio_init(gpio_sens);
-	
-	// Configuration pin de sortie sens
-	gpio_usart_rx->GPIO = GPIOB;
-	gpio_usart_rx->pin = 11;
-	gpio_usart_rx->config = IN_FLOATING;	
-	gpio_init(gpio_usart_rx);
-	
-	
-	// Configuration USART
-		// Initialization of each component of the structure
-	usart->usart = USART3;
-	usart->stop_bits = 2;
-	usart->baud_rate_div = 3750;	
-	usart_init(usart);
-	
-
+	gpio_adc_batterie->GPIO = GPIOC;
+	gpio_adc_batterie->pin = 2;
+	gpio_adc_batterie->config = IN_ANALOG;
 }
 
-// Renvoie le signe d'un char signé
-static char orientation_get_signe(signed char data)
+// Envoie l'état de la batterie à la télécommande
+void envoi_info_batterie(MyUSART_Struct_Typedef* usart, MyADC_Struct_TypeDef* adc_batterie)
 {
-	return data < 0;
-}
-
-// Renvoie la valeur absolue d'un char signé
-static char orientation_val_abs(signed char data)
-{
-	return (data < 0) ? -data : data;
-}
-
-// Récupère l'information dans le buffer de l'USART choisi, 
-// et modifie le duty cycle de la PWM envoyée au servomoteur du plateau, 
-// ainsi que le bit de signe
-void orientation_gestion_plateau(MyTimer_Struct_TypeDef* timer_pwm, 
-																 MyGPIO_Struct_TypeDef*  gpio_sens,
-																 MyUSART_Struct_Typedef* usart)
-{
-	char data_buffer = usart_get_data_buffer(usart->usart);
-	char duty_cycle = orientation_val_abs(data_buffer);
-	// Bit de signe
-	if (orientation_get_signe(data_buffer))
+	short data;
+	int etat_batterie;
+	
+	adc_convert_once(adc_batterie->ADC);
+	data = adc_get_data(adc_batterie->ADC);
+	
+	etat_batterie = (int)((data*100)/MAX_BATTERIE);
+	if (etat_batterie < 20)
 	{
-		gpio_reset(gpio_sens->GPIO, gpio_sens->pin);
+			usart_transmit_string(usart->usart, "* Batterie faible.\n",19);
 	}
-	else
-	{
-		gpio_set(gpio_sens->GPIO, gpio_sens->pin);
-	}
-	// Changement dutycycle PWM
-	timer_pwm_changecycle(timer_pwm->Timer, (float)duty_cycle, ORIENTATION_PWM_CH);
 }
-

@@ -7,7 +7,7 @@ char adc2_buffer_nempty = 0;
 short adc2_buffer;
 
 // Initialise l'ADC choisi.
-void adc_init(MyADC_Struct_Typedef* adc_struct)
+void adc_init(MyADC_Struct_TypeDef* adc_struct)
 {
 	// Allumage de la clock
 	if (adc_struct->ADC == ADC1)
