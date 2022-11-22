@@ -7,6 +7,7 @@
 #include "driver_usart.h"
 #include "driver_adc.h"
 
+
 // FONCTION D'INITIALISATION
 // Initialise les peripheriques necessaires a l'envoi d'informations
 void envoi_init(MyADC_Struct_TypeDef* adc_batterie,
@@ -31,8 +32,16 @@ void envoi_info_batterie(MyUSART_Struct_Typedef* usart, MyADC_Struct_TypeDef* ad
 	data = adc_get_data(adc_batterie->ADC);
 	
 	etat_batterie = (int)((data*100)/MAX_BATTERIE);
-	if (etat_batterie < 20)
+	if (etat_batterie < POURCENTAGE_BATTERIE_FAIBLE)
 	{
-			usart_transmit_string(usart->usart, "* Batterie faible.\n",19);
+			usart_transmit_string(usart->usart, MESSAGE_BATTERIE_FAIBLE, TAILLE_MESSAGE_BATTERIE_FAIBLE);
 	}
 }
+
+// Envoie l'information du charivement si jamais il a lieu
+void envoi_info_chavirement(MyUSART_Struct_Typedef* usart)
+{
+		usart_transmit_string(usart->usart, MESSAGE_CHAVIREMENT, TAILLE_MESSAGE_CHAVIREMENT);
+}
+
+

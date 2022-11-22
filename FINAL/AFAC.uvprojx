@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>.\Headers;..\DRIVERS</IncludePath>
+              <IncludePath>.\Headers;..\DRIVERS;.\Sources</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -394,6 +394,11 @@
               <FilePath>.\Sources\girouette.c</FilePath>
             </File>
             <File>
+              <FileName>girouette.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\girouette.h</FilePath>
+            </File>
+            <File>
               <FileName>m_voiles.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Sources\m_voiles.c</FilePath>
@@ -422,11 +427,6 @@
               <FileName>m_envoi.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Sources\m_envoi.h</FilePath>
-            </File>
-            <File>
-              <FileName>girouette.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Sources\girouette.h</FilePath>
             </File>
             <File>
               <FileName>roulis.c</FileName>
@@ -896,6 +896,11 @@
               <FilePath>.\Sources\girouette.c</FilePath>
             </File>
             <File>
+              <FileName>girouette.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\girouette.h</FilePath>
+            </File>
+            <File>
               <FileName>m_voiles.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Sources\m_voiles.c</FilePath>
@@ -924,11 +929,6 @@
               <FileName>m_envoi.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Sources\m_envoi.h</FilePath>
-            </File>
-            <File>
-              <FileName>girouette.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Sources\girouette.h</FilePath>
             </File>
             <File>
               <FileName>roulis.c</FileName>

@@ -1,5 +1,5 @@
-#ifndef __MYGIROUETTE_H__
-#define __MYGIROUETTE_H__
+#ifndef __ROULIS_H__
+#define __ROULIS_H__
 
 #include "stm32f10x.h"
 #include "driver_gpio.h" 
@@ -17,11 +17,12 @@
 #define Lecture		|(1<<6)
 #define Ecriture & ~(1<<6)
 
-typedef struct {
+typedef struct 
+{
 	short int  AxeX;
 	short int  AxeY;
 	short int  AxeZ;
-}My_roulis_struct;   
+} My_roulis_struct;   
 
 void roul_init(SPI_TypeDef * SPI) ;
 void roul_voiles_relache(MyTimer_Struct_TypeDef timer_voiles);

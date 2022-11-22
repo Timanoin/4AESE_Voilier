@@ -7,17 +7,30 @@
 
 #include "stm32f10x.h"
 #include "math.h" 
+#include <string.h>
+#include <stdio.h>
 #define pi 3.1415926535898
 
 #include "girouette.h"
 #include "m_voiles.h"
 #include "m_orientation.h"
 #include "roulis.h"
+#include "m_envoi.h"
 
 #include "driver_gpio.h"
 #include "driver_timer.h"
 #include "driver_usart.h"
+#include "driver_adc.h"
 #include "MySPI.h"
+
+MyUSART_Struct_Typedef usart_telecommande;
+int angle_voile = 0;
+void it_func_message_voiles(void);
+char message_voiles[100];
+char message_angle[2];
+
+// Fonction utilisée pour envoyée périodiquement un message
+// sur l'angle des voiles à 
 
 int main(void)
 {
@@ -44,7 +57,6 @@ int main(void)
 	MyTimer_Struct_TypeDef timer_pwm_plateau;	// Timer de fréquence 20kHz : ARR = 3600, PSC = 0
 	MyGPIO_Struct_TypeDef  gpio_pwm_plateau;
 	MyGPIO_Struct_TypeDef  gpio_pwm_sens;
-	MyUSART_Struct_Typedef usart_telecommande;
 	MyGPIO_Struct_TypeDef  gpio_rx;
 	
 	/*********************************/
@@ -54,7 +66,7 @@ int main(void)
 	float X;
 	float Y;
 	float Z;
-	int chavire = 0;
+	char chavire = 0;
 	My_roulis_struct MyRoulis ; 
 
 	/***********************************************/
@@ -63,6 +75,10 @@ int main(void)
 	MyGPIO_Struct_TypeDef gpio_tx;
 	MyADC_Struct_TypeDef adc_batterie;
 	MyGPIO_Struct_TypeDef gpio_adc_batterie;
+	MyTimer_Struct_TypeDef timer_messages;
+	
+	char msg_chavire_envoye = 0;
+
 	
 	//////////////////////////////////////
 	// Initialisation des périphériques //
@@ -118,61 +134,67 @@ int main(void)
 	gpio_tx.pin = 10;
 	gpio_tx.config = OUT_PUSHPULL;	
 	gpio_init(&gpio_tx);
+	// Configuration timer 3sec pour les messages
+	timer_messages.Timer = TIM1;
+	timer_messages.ARR = 0xFFFF;
+	timer_messages.PSC = 0xCE0;
+	timer_base_init(&timer_messages);
+	timer_activeIT(timer_messages.Timer, 15, (*it_func_message_voiles));
 	// Configuration ADC pour la mesure de la batterie	
-	envoi_init(&adc, &gpio_adc);
+	envoi_init(&adc_batterie, &gpio_adc_batterie);
 	
 	// Start timers
 	TIMER_BASE_START(gir_compt_inc.Timer);
 	TIMER_BASE_START(timer_voiles.Timer);
 	TIMER_BASE_START(timer_pwm_plateau.Timer);
 	
-	Angle = 0;
-	MyRoulis.AxeX = 0;
-	MyRoulis.AxeY = 0;
-	MyRoulis.AxeZ = 0;
+	Angle = 0.0;
+	MyRoulis.AxeX = 0.0;
+	MyRoulis.AxeY = 0.0;
+	MyRoulis.AxeZ = 0.0;
 	
 	///////////////////////////////////////////
 	// Boucle infinie du programme principal //
 	///////////////////////////////////////////
 	do {
-		/***************************/
-		/* F1 - bordage des voiles */
-		/***************************/
-		// Récupération de l'angle de la girouette
-		gir_angle=Gir_Angle();
-		if (gpio_read(gir_GPIO_I.GPIO,gir_GPIO_I.pin))
-		{
-			Gir_Reset();
-		}
-		// Actionnement des voiles en fonction de l'angle recu
-		timer_pwm_changecycle(timer_voiles.Timer, voiles_duty_cycle_pwm(gir_angle), 2);
-		
 		/****************************/
 		/* F2 - Rotation du plateau */
 		/****************************/
 		//Gestion de la vitesse de rotation du plateau
 		orientation_gestion_plateau(&timer_pwm_plateau, &gpio_pwm_sens, &usart_telecommande);
 		
-		/*********************************/
-		/* F3 - Détection du chavirement */
-		/*********************************/
+		/************************************************************/
+		/* F1 - bordage des voiles et F3 - Détection du chavirement */
+		/************************************************************/
+		// Récupération de l'angle de la girouette
+		gir_angle=Gir_Angle();
+		if (gpio_read(gir_GPIO_I.GPIO,gir_GPIO_I.pin))
+		{
+			Gir_Reset();
+		}
 		// Fonctionnement du roulis
 		roul_lecture(&MyRoulis);
 		X=MyRoulis.AxeX;
 		Y=MyRoulis.AxeY;
 		Z=MyRoulis.AxeZ;
-		if (Y*Z>0){
+		if (Y*Z>0.0)
+		{
 			Angle = atan(Y/Z);
 		}
 		else 
+		{
 			Angle = atan(-(Y/Z));
-		
-		if ((Y >= 150) || (Y <= -150)){
-				roul_voiles_relache(timer_voiles);
-				chavire = 1;
+		}	
+		if ((Y >= 150.0) || (Y <= -150.0)){
+			// chavirement !! 
+			roul_voiles_relache(timer_voiles);
+			chavire = 1;
+			angle_voile = 0;
 		}
 		else 
 		{
+			// bordage normal
+			angle_voile = angle_voiles(angle_girouette_abs(gir_angle));
 			timer_pwm_changecycle(timer_voiles.Timer, voiles_duty_cycle_pwm(gir_angle), 2);
 		}
 
@@ -181,7 +203,25 @@ int main(void)
 		/***********************************************/
 		
 		// Gérer le temps + les autres infos
-		envoi_info_batterie(&usart, &adc);
+		envoi_info_batterie(&usart_telecommande, &adc_batterie);
 		
+		// Gestion de l'envoi du message 1 fois par chavirement
+		if (!chavire) msg_chavire_envoye = 0;
+		// Envoi d'un message si le bateau chavire
+		if (!msg_chavire_envoye && chavire) 
+		{
+			envoi_info_chavirement(&usart_telecommande);
+			msg_chavire_envoye = 1;
+		}
 	}while(1);
+}
+
+void it_func_message_voiles(void)
+{
+	message_voiles[0] = 0;
+	strcat(message_voiles, DEBUT_MESSAGE_ANGLE_VOILES);
+	sprintf(message_angle, "%d", angle_voile);
+	strcat(message_voiles, message_angle);
+	strcat(message_voiles, FIN_MESSAGE_ANGLE_VOILES);
+	usart_transmit_string(usart_telecommande.usart, message_voiles, strlen(message_voiles));
 }

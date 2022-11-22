@@ -6,7 +6,7 @@
 // Renvoie une valeur de l'angle de la girouette en valeur absolue 
 // Paramètre : int angle_360 [0;359] donné par les données issues du codeur incrémental
 // Retour    : int angle_girouette_abs [0;179]
-static int angle_girouette_abs(int angle_360)
+int angle_girouette_abs(int angle_360)
 {
 	if (angle_360 >180) angle_360 -= 360;
 	return (angle_360>0) ? angle_360 : -angle_360;
@@ -15,7 +15,7 @@ static int angle_girouette_abs(int angle_360)
 // Renvoie l'angle souhaité pour les voiles en fonction de l'angle de la girouette
 // Paramètre : int angle_girouette_abs [0;179]
 // Retour    : int angle_voiles [0;90]
-static int angle_voiles(int angle_girouette_abs)
+int angle_voiles(int angle_girouette_abs)
 {
 	return (angle_girouette_abs > 45) ? (angle_girouette_abs-45)*90/135 : 0;
 }
