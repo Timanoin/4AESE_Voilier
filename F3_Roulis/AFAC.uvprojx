@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>.\Headers;..\DRIVERS</IncludePath>
+              <IncludePath>.\Headers;..\DRIVERS;..\F3_Roulis</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -389,24 +389,19 @@
               <FilePath>.\Sources\main.c</FilePath>
             </File>
             <File>
-              <FileName>girouette.c</FileName>
+              <FileName>roulis.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Sources\girouette.c</FilePath>
-            </File>
-            <File>
-              <FileName>girouette.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Sources\girouette.h</FilePath>
+              <FilePath>.\roulis.c</FilePath>
             </File>
             <File>
               <FileName>m_voiles.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Sources\m_voiles.c</FilePath>
+              <FilePath>.\m_voiles.c</FilePath>
             </File>
             <File>
-              <FileName>m_voiles.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Sources\m_voiles.h</FilePath>
+              <FileName>girouette.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\girouette.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -419,19 +414,14 @@
               <FilePath>..\DRIVERS\driver_gpio.c</FilePath>
             </File>
             <File>
-              <FileName>driver_gpio.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\DRIVERS\driver_gpio.h</FilePath>
-            </File>
-            <File>
               <FileName>driver_timer.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\DRIVERS\driver_timer.c</FilePath>
             </File>
             <File>
-              <FileName>driver_timer.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\DRIVERS\driver_timer.h</FilePath>
+              <FileName>Lib_Com_Periph_2022.lib</FileName>
+              <FileType>4</FileType>
+              <FilePath>..\DRIVERS\Lib_Com_Periph_2022.lib</FilePath>
             </File>
           </Files>
         </Group>
@@ -552,8 +542,8 @@
           <SimDlgDllArguments>-pSTM32F103RB</SimDlgDllArguments>
           <TargetDllName>SARMCM3.DLL</TargetDllName>
           <TargetDllArguments></TargetDllArguments>
-          <TargetDlgDll>TCM.DLL</TargetDlgDll>
-          <TargetDlgDllArguments>-pCM3</TargetDlgDllArguments>
+          <TargetDlgDll>TARMSTM.DLL</TargetDlgDll>
+          <TargetDlgDllArguments>-pSTM32F103RB</TargetDlgDllArguments>
         </DllOption>
         <DebugOption>
           <OPTHX>
@@ -571,11 +561,11 @@
             <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
             <Capability>1</Capability>
-            <DriverSelection>-1</DriverSelection>
+            <DriverSelection>4096</DriverSelection>
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
-          <Flash3></Flash3>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -776,7 +766,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>.\Headers;..\DRIVERS</IncludePath>
+              <IncludePath>.\Headers;..\DRIVERS;..\F3_Roulis</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -826,24 +816,19 @@
               <FilePath>.\Sources\main.c</FilePath>
             </File>
             <File>
-              <FileName>girouette.c</FileName>
+              <FileName>roulis.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Sources\girouette.c</FilePath>
-            </File>
-            <File>
-              <FileName>girouette.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Sources\girouette.h</FilePath>
+              <FilePath>.\roulis.c</FilePath>
             </File>
             <File>
               <FileName>m_voiles.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Sources\m_voiles.c</FilePath>
+              <FilePath>.\m_voiles.c</FilePath>
             </File>
             <File>
-              <FileName>m_voiles.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Sources\m_voiles.h</FilePath>
+              <FileName>girouette.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\girouette.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -856,19 +841,14 @@
               <FilePath>..\DRIVERS\driver_gpio.c</FilePath>
             </File>
             <File>
-              <FileName>driver_gpio.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\DRIVERS\driver_gpio.h</FilePath>
-            </File>
-            <File>
               <FileName>driver_timer.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\DRIVERS\driver_timer.c</FilePath>
             </File>
             <File>
-              <FileName>driver_timer.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\DRIVERS\driver_timer.h</FilePath>
+              <FileName>Lib_Com_Periph_2022.lib</FileName>
+              <FileType>4</FileType>
+              <FilePath>..\DRIVERS\Lib_Com_Periph_2022.lib</FilePath>
             </File>
           </Files>
         </Group>
