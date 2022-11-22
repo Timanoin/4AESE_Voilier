@@ -398,6 +398,11 @@
               <FileType>1</FileType>
               <FilePath>.\m_voiles.c</FilePath>
             </File>
+            <File>
+              <FileName>girouette.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\girouette.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -556,11 +561,11 @@
             <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
             <Capability>1</Capability>
-            <DriverSelection>-1</DriverSelection>
+            <DriverSelection>4096</DriverSelection>
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
-          <Flash3></Flash3>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -819,6 +824,11 @@
               <FileName>m_voiles.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\m_voiles.c</FilePath>
+            </File>
+            <File>
+              <FileName>girouette.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\girouette.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -18,17 +18,13 @@
 #define Ecriture & ~(1<<6)
 
 typedef struct {
-	uint8_t RxData[6];
-	short int  AxeX1;
-	short int  AxeX2;
-	short int  AxeY1;
-	short int  AxeY2;
-	short int  AxeZ1;
-	short int	 AxeZ2; 
+	short int  AxeX;
+	short int  AxeY;
+	short int  AxeZ;
 }My_roulis_struct;   
 
 void roul_init(SPI_TypeDef * SPI) ;
-void roul_voiles_relache(MyTimer_Struct_TypeDef timer_voiles, int z);
+void roul_voiles_relache(MyTimer_Struct_TypeDef timer_voiles);
 void roul_lancement(void);
-void roul_lecture(My_roulis_struct ptr);
+void roul_lecture(My_roulis_struct * ptr);
 #endif

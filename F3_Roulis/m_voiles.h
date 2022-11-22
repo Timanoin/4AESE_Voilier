@@ -4,7 +4,7 @@
 #include "driver_timer.h"
 #include "driver_gpio.h"
 
-#define DUTYCYCLE_0 8.0
+#define DUTYCYCLE_0 10.0
 #define DUTYCYCLE_90 5.0
 
 // Renvoie une valeur de l'angle de la girouette en valeur absolue 
