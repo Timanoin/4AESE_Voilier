@@ -5,11 +5,6 @@
 signed char usart1_buffer = 0;
 signed char usart3_buffer = 0;
 
-char usart1_buffer_tr[MAX_SIZE_BUFFER_TR];
-char usart1_buffer_tr_len = 0;
-char usart3_buffer_tr[MAX_SIZE_BUFFER_TR];
-char usart3_buffer_tr_len = 0;
-
 /********
  * INIT *
  ********/
@@ -31,22 +26,6 @@ void usart_init(MyUSART_Struct_Typedef* usart_struct)
 	// Disable Parity
 	usart_struct->usart->CR1 &= ~USART_CR1_PCE;
 	// Configuration of transmission mode
-	usart_init_transmission(usart_struct);	
-	// Configuration of reception mode
-	usart_init_reception(usart_struct);
-	
-	// Enable the USART
-	usart_struct->usart->CR1 |= USART_CR1_UE;	 
-	// Interruptions
-	NVIC_EnableIRQ(USART3_IRQn);
-	NVIC_SetPriority(USART3_IRQn, 15);
-
-}
-
-// Initialize the chosen USART in transmission mode.
-// Parameter : MyUSART_Struct_Typedef* usart_struct = usart struct to initialize.
-static void usart_init_transmission(MyUSART_Struct_Typedef* usart_struct)
-{
 	// Sending 8 bits each time (M=1 => 9 bits each time)
 	usart_struct->usart->CR1 &= ~USART_CR1_M;
 	// Number of stop bits	
@@ -54,50 +33,55 @@ static void usart_init_transmission(MyUSART_Struct_Typedef* usart_struct)
 	usart_struct->usart->CR2 |= usart_struct->stop_bits;
 	// Baud rate
 	usart_struct->usart->BRR = usart_struct->baud_rate_div;
-}
-
-// Initialize the chosen USART in reception mode.
-// Parameter : MyUSART_Struct_Typedef* usart_struct = usart struct to initialize.
-static void usart_init_reception(MyUSART_Struct_Typedef* usart_struct)
-{
+	
+	// Configuration of reception mode
 	// Enable interruptions
 	usart_struct->usart->CR1 |= USART_CR1_RXNEIE; // Register Not Empty Interruption Enable
-	// Receiving 8 bits each time (char = 1 byte) (M=1 => 9 bits each time)
-	usart_struct->usart->CR1 &= ~USART_CR1_M;
-	// Number of stop bits	
-	usart_struct->usart->CR2 &= ~USART_CR2_STOP;
-	usart_struct->usart->CR2 |= usart_struct->stop_bits;
-	// Baud rate
-	usart_struct->usart->BRR = usart_struct->baud_rate_div;
 	// USART starts searching for a start bit (Read Enable)
 	usart_struct->usart->CR1 |= USART_CR1_RE;
+	
+	// Enable the USART
+	usart_struct->usart->CR1 |= USART_CR1_UE;	
+	
+		// USART starts searching for a start bit (Read Enable)
+	usart_struct->usart->CR1 |= USART_CR1_TE;
+	
+	// Interruptions
+	NVIC_EnableIRQ(USART3_IRQn);
+	NVIC_SetPriority(USART3_IRQn, 15);
+	
+
+
 }
 
 /***********
  * UTILITY *
  ***********/
 
-// Transmission of a string of char with UART
+// Transmission of a string of char with USART
 // Parameters : USART_TypeDef usart  = USART used for transmission
 //              char*         data   = transmitted string of char 
 // 							char					length = size of data
 void usart_transmit_string(USART_TypeDef* usart, char* data, char length)
 {
 	int i;
-	// Sending an idle frame as first transmission
-	usart->CR1 |= USART_CR1_TE;
 	// Transmission of each character
 	if(usart == USART1)
 	{
-		usart1_buffer_tr_len = length;
-		for (i=0; i<length; i++) usart1_buffer_tr[i] = data[i];
+		for (i=0; i<length; i++) 
+		{
+			while (!(USART1->SR & USART_SR_TXE));
+			USART1->DR = data[i];
+		}
 	}
 	else if (usart == USART3)
 	{
-		usart3_buffer_tr_len = length;
-		for (i=0; i<length; i++) usart3_buffer_tr[i] = data[i];
+		for (i=0; i<length; i++) 
+		{
+			while (!(USART3->SR & USART_SR_TXE));
+			USART3->DR = data[i];
+		}
 	}
-	
 }
 
 // Reading the character contained in the one byte buffer of the USART. 
