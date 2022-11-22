@@ -8,6 +8,7 @@ Auteurs :
 - Kenza Bouzergan
 
 Objectif : répondre à plusieurs besoins sur une maquette de voilier.
+
 F1 : bordage des voiles
 En fonction de la direction du vent, détectée par un codeur incrémental sur la girouette, l'angle des voiles est modifié pour prendre le vent de manière optimale.
 
