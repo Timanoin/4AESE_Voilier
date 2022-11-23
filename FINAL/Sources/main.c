@@ -135,7 +135,7 @@ int main(void)
 	gpio_tx.config = OUT_PUSHPULL;	
 	gpio_init(&gpio_tx);
 	// Configuration timer 3sec pour les messages
-	timer_messages.Timer = TIM1;
+	timer_messages.Timer = TIM4;
 	timer_messages.ARR = 0xFFFF;
 	timer_messages.PSC = 0xCE0;
 	timer_base_init(&timer_messages);
