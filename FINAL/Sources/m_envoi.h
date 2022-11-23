@@ -12,12 +12,11 @@
 
 // Zone éditable
 
-#define POURCENTAGE_BATTERIE_FAIBLE 20
+#define POURCENTAGE_BATTERIE_FAIBLE 50
 #define MESSAGE_BATTERIE_FAIBLE "* Batterie faible.\n"
 #define TAILLE_MESSAGE_BATTERIE_FAIBLE 19
 
-#define MESSAGE_CHAVIREMENT "* Le voilier chavire. \n* Les voiles sont relachees.\n"
-#define TAILLE_MESSAGE_CHAVIREMENT 52
+#define MESSAGE_CHAVIREMENT "* Le voilier chavire!"
 
 #define DEBUT_MESSAGE_ANGLE_VOILES "* Les voiles ont un angle de"
 #define FIN_MESSAGE_ANGLE_VOILES "degres.\n"

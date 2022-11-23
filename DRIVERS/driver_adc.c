@@ -18,6 +18,7 @@ void adc_init(MyADC_Struct_TypeDef* adc_struct)
 	{
 		RCC->APB2ENR |= RCC_APB2ENR_ADC2EN;
 	}
+	
 	// Allumage de l'ADC en mode single conversion
 	adc_struct->ADC->CR2 &= ~ADC_CR2_CONT;
 	adc_struct->ADC->CR2 |= ADC_CR2_ADON;

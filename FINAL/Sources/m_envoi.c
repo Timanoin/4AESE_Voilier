@@ -1,6 +1,7 @@
 #include "m_envoi.h"
 #include "stm32f10x.h"
 #include <stdlib.h>
+#include <string.h>
 
 #include "driver_timer.h"
 #include "driver_gpio.h"
@@ -41,7 +42,7 @@ void envoi_info_batterie(MyUSART_Struct_Typedef* usart, MyADC_Struct_TypeDef* ad
 // Envoie l'information du charivement si jamais il a lieu
 void envoi_info_chavirement(MyUSART_Struct_Typedef* usart)
 {
-		usart_transmit_string(usart->usart, MESSAGE_CHAVIREMENT, TAILLE_MESSAGE_CHAVIREMENT);
+		usart_transmit_string(usart->usart, MESSAGE_CHAVIREMENT, strlen(MESSAGE_CHAVIREMENT));
 }
 
 

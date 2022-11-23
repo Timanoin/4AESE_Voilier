@@ -4,7 +4,7 @@
 #include "driver_timer.h"
 #include "driver_gpio.h"
 
-#define DUTYCYCLE_0 8.0
+#define DUTYCYCLE_0 9.0
 #define DUTYCYCLE_90 5.0
 
 // Renvoie l'angle souhaité pour les voiles en fonction de l'angle de la girouette

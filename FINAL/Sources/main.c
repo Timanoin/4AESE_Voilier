@@ -24,10 +24,16 @@
 #include "MySPI.h"
 
 MyUSART_Struct_Typedef usart_telecommande;
+MyADC_Struct_TypeDef adc_batterie;
 int angle_voile = 0;
+
+char msg_chavire_envoye = 0;
+char message_sent = 0;
+
+int stkhandler_n = 0;
+
 void it_func_message_voiles(void);
-char message_voiles[100];
-char message_angle[2];
+void init_systick(void);
 
 // Fonction utilisée pour envoyée périodiquement un message
 // sur l'angle des voiles à 
@@ -62,7 +68,6 @@ int main(void)
 	/*********************************/
 	/* F3 - Détection du chavirement */
 	/*********************************/
-	float Angle;
 	float X;
 	float Y;
 	float Z;
@@ -73,11 +78,10 @@ int main(void)
 	/* F4 - Envoi d'informations à la télécommande */
 	/***********************************************/
 	MyGPIO_Struct_TypeDef gpio_tx;
-	MyADC_Struct_TypeDef adc_batterie;
 	MyGPIO_Struct_TypeDef gpio_adc_batterie;
-	MyTimer_Struct_TypeDef timer_messages;
 	
-	char msg_chavire_envoye = 0;
+	char message_voiles[100];
+	char message_angle[2];
 
 	
 	//////////////////////////////////////
@@ -132,14 +136,8 @@ int main(void)
 	// Configuration pin tx usart
 	gpio_tx.GPIO = GPIOB;
 	gpio_tx.pin = 10;
-	gpio_tx.config = OUT_PUSHPULL;	
+	gpio_tx.config = OUT_ALT_PUSHPULL;	
 	gpio_init(&gpio_tx);
-	// Configuration timer 3sec pour les messages
-	timer_messages.Timer = TIM4;
-	timer_messages.ARR = 0xFFFF;
-	timer_messages.PSC = 0xCE0;
-	timer_base_init(&timer_messages);
-	timer_activeIT(timer_messages.Timer, 15, (*it_func_message_voiles));
 	// Configuration ADC pour la mesure de la batterie	
 	envoi_init(&adc_batterie, &gpio_adc_batterie);
 	
@@ -148,7 +146,8 @@ int main(void)
 	TIMER_BASE_START(timer_voiles.Timer);
 	TIMER_BASE_START(timer_pwm_plateau.Timer);
 	
-	Angle = 0.0;
+	init_systick();
+	
 	MyRoulis.AxeX = 0.0;
 	MyRoulis.AxeY = 0.0;
 	MyRoulis.AxeZ = 0.0;
@@ -160,7 +159,7 @@ int main(void)
 		/****************************/
 		/* F2 - Rotation du plateau */
 		/****************************/
-		//Gestion de la vitesse de rotation du plateau
+		// Gestion de la vitesse de rotation du plateau
 		orientation_gestion_plateau(&timer_pwm_plateau, &gpio_pwm_sens, &usart_telecommande);
 		
 		/************************************************************/
@@ -177,14 +176,7 @@ int main(void)
 		X=MyRoulis.AxeX;
 		Y=MyRoulis.AxeY;
 		Z=MyRoulis.AxeZ;
-		if (Y*Z>0.0)
-		{
-			Angle = atan(Y/Z);
-		}
-		else 
-		{
-			Angle = atan(-(Y/Z));
-		}	
+		// A intégrer dns voiles.c
 		if ((Y >= 150.0) || (Y <= -150.0)){
 			// chavirement !! 
 			roul_voiles_relache(timer_voiles);
@@ -194,6 +186,7 @@ int main(void)
 		else 
 		{
 			// bordage normal
+			chavire = 0;
 			angle_voile = angle_voiles(angle_girouette_abs(gir_angle));
 			timer_pwm_changecycle(timer_voiles.Timer, voiles_duty_cycle_pwm(gir_angle), 2);
 		}
@@ -201,10 +194,7 @@ int main(void)
 		/***********************************************/
 		/* F4 - Envoi d'informations à la télécommande */
 		/***********************************************/
-		
-		// Gérer le temps + les autres infos
-		envoi_info_batterie(&usart_telecommande, &adc_batterie);
-		
+	
 		// Gestion de l'envoi du message 1 fois par chavirement
 		if (!chavire) msg_chavire_envoye = 0;
 		// Envoi d'un message si le bateau chavire
@@ -212,16 +202,38 @@ int main(void)
 		{
 			envoi_info_chavirement(&usart_telecommande);
 			msg_chavire_envoye = 1;
+		}			
+		if (!(stkhandler_n % 4) && !message_sent)
+		{
+			message_sent = 1;
+			message_voiles[0] = 0;
+			strcat(message_voiles, DEBUT_MESSAGE_ANGLE_VOILES);
+			sprintf(message_angle, "%d", angle_voile);
+			strcat(message_voiles, message_angle);
+			strcat(message_voiles, FIN_MESSAGE_ANGLE_VOILES);
+			usart_transmit_string(usart_telecommande.usart, message_voiles, strlen(message_voiles));
+			// Gérer le temps + les autres infos
+			envoi_info_batterie(&usart_telecommande, &adc_batterie);
 		}
+
 	}while(1);
 }
 
-void it_func_message_voiles(void)
+void init_systick(void)
 {
-	message_voiles[0] = 0;
-	strcat(message_voiles, DEBUT_MESSAGE_ANGLE_VOILES);
-	sprintf(message_angle, "%d", angle_voile);
-	strcat(message_voiles, message_angle);
-	strcat(message_voiles, FIN_MESSAGE_ANGLE_VOILES);
-	usart_transmit_string(usart_telecommande.usart, message_voiles, strlen(message_voiles));
+	SysTick->CTRL |= SysTick_CTRL_ENABLE_Msk;
+	SysTick->CTRL |= SysTick_CTRL_TICKINT_Msk;
+	SysTick->CTRL |= SysTick_CTRL_CLKSOURCE_Msk;
+	SysTick->CTRL &= ~SysTick_CTRL_COUNTFLAG_Msk;
+	// Pour une seconde : Systick module 4
+	SysTick->LOAD = 0x00FFFFFF;
+	NVIC_EnableIRQ(SysTick_IRQn);
+	NVIC_SetPriority(SysTick_IRQn, 15);
+}
+
+void SysTick_Handler(void)
+{
+	SysTick->CTRL &= ~SysTick_CTRL_COUNTFLAG_Msk;
+	stkhandler_n ++;
+	message_sent = 0;
 }
